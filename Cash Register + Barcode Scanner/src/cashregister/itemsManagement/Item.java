@@ -41,8 +41,8 @@ public class Item {
 	public long code;
 	public float price;
 	public Item(String name, long code, float price) {
-		name = this.name;
-		code = (long)this.code;
-		price = this.price;
+		this.name = name;
+		this.code = code;
+		this.price = price;
 	}
 }

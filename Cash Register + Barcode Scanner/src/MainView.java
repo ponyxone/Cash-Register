@@ -18,6 +18,7 @@ import cashregister.itemsManagement.Item;
 
 import java.awt.event.ActionListener;
 import java.lang.invoke.WrongMethodTypeException;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.JLayeredPane;
 import javax.swing.JTabbedPane;
@@ -53,6 +54,11 @@ public class MainView{
 	private JTextField textField_2;
 	private JTextField textField_3;
 
+	
+	
+	
+	public static Map<Long,Item> productMap = Map.of(110L, new Item("Milk", 110L, 1000),
+											111L, new Item("Computer", 111L, 1100));
 	/**
 	 * Launch the application.
 	 */
@@ -84,7 +90,7 @@ public class MainView{
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initialize the contents of the frame. sure
 	 */
 	private void initialize() {
 		
@@ -284,23 +290,24 @@ public class MainView{
 		panel_1.add(btnNewButton_3_4_1_1);
 		
 		JButton btnNewButton_3_4_1_1_1 = new JButton("ADD");
-		btnNewButton_3_4_1_1_1.setEnabled(true);
+		
 
 				btnNewButton_3_4_1_1_1.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
 				try {
-					textField.setText("a");
-					Item product = new Item(a, b, c);
-					String productName = textField.getText();
-					String unProcessedPriceOne = textField_1.getText();
-					Float ProcessedPriceTwo = Float.valueOf(unProcessedPriceOne);
 					String unProcessedCodeOne = textField_2.getText();
 					System.out.println("Debug " + unProcessedCodeOne);
 					Long ProcessedCodeTwo = Long.valueOf(unProcessedCodeOne);
-					product.setPrice(ProcessedPriceTwo);
-					product.setCode(ProcessedCodeTwo);
-					product.setName(productName);
+					String productName = textField.getText();
+
+					String unProcessedPriceOne = textField_1.getText();
+					Float ProcessedPriceTwo = Float.valueOf(unProcessedPriceOne);
+				
+					Item product = new Item(productName,ProcessedCodeTwo, ProcessedPriceTwo);
+					
+				
+			
 					System.out.println("Price = " + product.getPrice() + " Code = " + product.getCode() + " Name = " + product.getName());
 					textField.setText(null); 
 					textField_1.setText(null);
@@ -376,13 +383,29 @@ public class MainView{
 		panel_1.add(textField_3);
 		textField_3.setColumns(10);
 		
-		// && textField_1!=null && textField_2!=null
-		while(1==1) {
-			String text = textField.getText();
-			if(text.equals(""))
-			System.out.println("Test");
-			btnNewButton_3_4_1_1_1.setEnabled(false);}
-
+		 //&& textField_1!=null && textField_2!=null
+		new Thread(()->{
+			while(true) {
+				String text = textField.getText();
+				String code =  textField_2.getText();
+				if("".equals(text)&&"".equals(code)) {
+					btnNewButton_3_4_1_1_1.setEnabled(false);
+				}
+				else{
+					if(productMap.containsKey(Long.valueOf(code))) {
+						 
+						 Item item = productMap.get(Long.valueOf(code));
+						 System.out.println(item.getName());
+						 textField.setText(item.getName());
+						 textField_3.setText(String.valueOf(item.getPrice()));
+					}
+					btnNewButton_3_4_1_1_1.setEnabled(true);
+					}
+				}
+        }).start();
+		
+		/*
+*/
 		}
 
 		
